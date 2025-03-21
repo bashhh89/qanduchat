@@ -54,13 +54,14 @@ endpoints:
       titleConvo: true
       titleModel: "Mistral"
       modelDisplayLabel: "AI Models"
-      maxTokens: 16000
-      maxOutputTokens: 4096
-      contextWindow: 16000
+      maxTokens: 32000
+      maxOutputTokens: 8192
+      contextWindow: 32000
+      tokenLimit: 32000
+      forcePrompt: true
       headers: {
         "Content-Type": "application/json"
       }
-      tokenLimit: 16000
 
     - name: "image-gen"
       baseURL: "https://pollinations.ai"
@@ -79,10 +80,11 @@ endpoints:
       titleModel: "flux"
       modelDisplayLabel: "Image Gen Models"
       chatGptLabel: "Image Generator"
-      maxTokens: 8192
-      maxOutputTokens: 2048
-      contextWindow: 8192
-      tokenLimit: 8192
+      maxTokens: 16000
+      maxOutputTokens: 8192
+      contextWindow: 16000
+      tokenLimit: 16000
+      forcePrompt: true
       responseProcessor: {
         type: "markdown",
         markdownTemplate: "![{{message}}](https://pollinations.ai/p/{{message}})"
