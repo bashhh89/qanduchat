@@ -1,0 +1,74 @@
+version: 1.2.1
+
+cache: true
+
+interface:
+  customWelcome: "Welcome to QanDu! Enjoy your experience."
+  privacyPolicy:
+    externalUrl: 'https://qandu.ai/privacy-policy'
+    openNewTab: true
+  termsOfService:
+    externalUrl: 'https://qandu.ai/terms-of-service'
+    openNewTab: true
+  agents: true
+
+# AI Endpoints Configuration
+endpoints:
+  agents:
+    recursionLimit: 25
+    maxRecursionLimit: 50
+    disableBuilder: false
+  
+  custom:
+    - name: "pollinations"
+      baseURL: "https://text.pollinations.ai/v1/chat/completions"
+      apiKey: "pollinations"
+      requestBuilder: {
+        type: "openai",
+        initialPrompt: "",
+        mapMessage: "text",
+        promptPrefix: ""
+      }
+      models:
+        default:
+          - "gemini"
+          - "gemini-thinking"
+          - "openai"
+          - "mistral"
+          - "claude"
+          - "claude-haiku"
+          - "llama3"
+          - "mixtral"
+          - "qwen"
+        fetch: false
+      titleConvo: true
+      titleModel: "mistral"
+      modelDisplayLabel: "Pollinations"
+      maxTokens: 8000
+      maxOutputTokens: 2048
+      contextWindow: 8000
+
+    - name: "pollinations-image"
+      baseURL: "https://pollinations.ai"
+      apiKey: "none"
+      promptPrefix: "Generate an image of"
+      models:
+        default:
+          - "flux"
+          - "turbo"
+          - "flux-realism"
+          - "any-dark"
+          - "flux-anime"
+          - "flux-3d"
+        fetch: false
+      titleConvo: true
+      titleModel: "flux"
+      modelDisplayLabel: "Pollinations Image"
+      chatGptLabel: "Image Generator"
+      maxTokens: 4096
+      maxOutputTokens: 1024
+      contextWindow: 4096
+      responseProcessor: {
+        type: "markdown",
+        markdownTemplate: "![{{message}}](https://pollinations.ai/p/{{message}})"
+      } 
