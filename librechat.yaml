@@ -20,7 +20,7 @@ endpoints:
     disableBuilder: false
   
   custom:
-    - name: "pollinations"
+    - name: "ai-models"
       baseURL: "https://text.pollinations.ai/v1/chat/completions"
       apiKey: "pollinations"
       requestBuilder: {
@@ -31,24 +31,34 @@ endpoints:
       }
       models:
         default:
-          - "gemini"
-          - "gemini-thinking"
-          - "openai"
-          - "mistral"
-          - "claude"
-          - "claude-haiku"
-          - "llama3"
-          - "mixtral"
-          - "qwen"
+          - "OpenAI GPT-4o-mini"
+          - "OpenAI GPT-4o"
+          - "OpenAI o1-mini"
+          - "OpenAI o3-mini"
+          - "Qwen"
+          - "Qwen 2.5 Coder 32B"
+          - "Meta"
+          - "Llama 3.3 70B"
+          - "Llama 3.1 8B Instruct"
+          - "Mistral"
+          - "Mistral Nemo"
+          - "DeepSeek-V3"
+          - "DeepSeek-R1 Distill Qwen 32B"
+          - "DeepSeek R1 - Full"
+          - "DeepSeek R1 - Llama 70B"
+          - "Claude 3.5 Haiku"
+          - "Gemini 2.0 Flash"
+          - "Gemini 2.0 Flash Thinking"
+          - "Phi-4 Multimodal Instruct"
         fetch: false
       titleConvo: true
-      titleModel: "mistral"
-      modelDisplayLabel: "Pollinations"
+      titleModel: "Mistral"
+      modelDisplayLabel: "AI Models"
       maxTokens: 8000
       maxOutputTokens: 2048
       contextWindow: 8000
 
-    - name: "pollinations-image"
+    - name: "image-gen"
       baseURL: "https://pollinations.ai"
       apiKey: "none"
       promptPrefix: "Generate an image of"
@@ -63,7 +73,7 @@ endpoints:
         fetch: false
       titleConvo: true
       titleModel: "flux"
-      modelDisplayLabel: "Pollinations Image"
+      modelDisplayLabel: "Image Gen Models"
       chatGptLabel: "Image Generator"
       maxTokens: 4096
       maxOutputTokens: 1024
