@@ -4,7 +4,6 @@ import { TStartupConfig } from 'librechat-data-provider';
 import SocialLoginRender from './SocialLoginRender';
 import { ThemeSelector } from '~/components/ui';
 import { Banner } from '../Banners';
-import Footer from './Footer';
 
 const ErrorRender = ({ children }: { children: React.ReactNode }) => (
   <div className="mt-16 flex justify-center">
@@ -65,7 +64,7 @@ function AuthLayout({
           <img
             src="/assets/logo.svg"
             className="h-full w-full object-contain"
-            alt={localize('com_ui_logo', { 0: startupConfig?.appTitle ?? 'LibreChat' })}
+            alt={localize('com_ui_logo', { 0: startupConfig?.appTitle ?? 'QanDu' })}
           />
         </div>
       </BlinkAnimation>
@@ -91,7 +90,6 @@ function AuthLayout({
           )}
         </div>
       </div>
-      <Footer startupConfig={startupConfig} />
     </div>
   );
 }

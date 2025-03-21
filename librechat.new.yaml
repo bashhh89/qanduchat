@@ -1,0 +1,88 @@
+version: 1.2.1
+
+cache: true
+
+interface:
+  customWelcome: "Welcome to LibreChat! Enjoy your experience."
+  privacyPolicy:
+    externalUrl: 'https://librechat.ai/privacy-policy'
+    openNewTab: true
+  termsOfService:
+    externalUrl: 'https://librechat.ai/terms-of-service'
+    openNewTab: true
+
+# AI Endpoints Configuration
+endpoints:
+  custom:
+    - name: "pollinations"
+      baseURL: "https://text.pollinations.ai/openai"
+      apiKey: "pollinations"
+      models:
+        default:
+          - "gemini"
+          - "gemini-thinking"
+          - "openai"
+          - "mistral"
+          - "claude"
+          - "claude-haiku"
+          - "llama3"
+          - "mixtral"
+          - "qwen"
+        fetch: false
+      titleConvo: true
+      titleModel: "mistral"
+      modelDisplayLabel: "Pollinations"
+      maxTokens: 8000
+      maxOutputTokens: 2048
+      contextWindow: 8000
+
+    - name: "pollinations-image"
+      baseURL: "https://pollinations.ai"
+      apiKey: "none"
+      models:
+        default:
+          - "flux"
+          - "turbo"
+          - "flux-realism"
+          - "any-dark"
+          - "flux-anime"
+          - "flux-3d"
+        fetch: false
+      titleConvo: true
+      titleModel: "flux"
+      modelDisplayLabel: "Pollinations Image"
+      chatGptLabel: "Image Generator"
+      maxTokens: 4096
+      maxOutputTokens: 1024
+      contextWindow: 4096
+      promptPrefix: "Generate an image of"
+      tools: [
+        {
+          "type": "function",
+          "function": {
+            "name": "generate_image",
+            "description": "Generate an image based on the prompt",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "prompt": {
+                  "type": "string",
+                  "description": "The prompt to generate the image"
+                }
+              },
+              "required": ["prompt"]
+            }
+          }
+        }
+      ]
+      responseProcessor: {
+        type: "function",
+        function: "async (response, { message, model }) => { const url = `https://pollinations.ai/p/${encodeURIComponent(message.replace(/\\s+/g, '_'))}`; return { type: 'image', image: { url } }; }"
+      }
+
+# Enable agents functionality
+agents: true
+# Default maximum number of steps an agent can take in a run
+defaultAgentSteps: 25
+# Maximum number of steps an agent can take in a run
+maxAgentSteps: 50 

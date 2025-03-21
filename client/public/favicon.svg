@@ -9,10 +9,8 @@
       <stop stop-color="#72004e" offset="0"/>
       <stop stop-color="#0015b1" offset="1"/>
     </linearGradient>
-    <linearGradient id="linearGradient918" x1="39.468" x2="154.99" y1="204.22" y2="124.47" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient22708"/>
   </defs>
   <g transform="translate(60, 60)" fill="url(#linearGradient6949)">
-    <text x="15" y="220" font-family="Arial, sans-serif" font-weight="bold" font-size="200" fill="url(#linearGradient6949)">Q</text>
-    <text x="170" y="220" font-family="Arial, sans-serif" font-weight="bold" font-size="180" fill="url(#linearGradient918)">Du</text>
+    <text x="130" y="220" font-family="Arial, sans-serif" font-weight="bold" font-size="300" fill="url(#linearGradient6949)">Q</text>
   </g>
 </svg> 

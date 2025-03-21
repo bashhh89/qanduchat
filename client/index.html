@@ -1,58 +1,19 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="theme-color" content="#171717" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="description" content="LibreChat - An open source chat application with support for multiple AI models" />
-    <title>LibreChat</title>
-    <link rel="shortcut icon" href="#" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180x180.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-      }
-    </style>
-    <script>
-      const theme = localStorage.getItem('color-theme');
-      const loadingContainerStyle = document.createElement('style');
-      let backgroundColor;
-
-      if (theme === 'dark') {
-        backgroundColor = '#0d0d0d';
-      } else if (theme === 'light') {
-        backgroundColor = '#ffffff';
-      } else if (theme === 'system') {
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        backgroundColor = prefersDarkScheme ? '#0d0d0d' : '#ffffff';
-      } else {
-        backgroundColor = '#ffffff';
-      }
-
-      loadingContainerStyle.innerHTML = `
-        #loading-container {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-          background-color: ${backgroundColor};
-        }
-      `;
-      document.head.appendChild(loadingContainerStyle);
-    </script>
-    <script defer type="module" src="/src/main.jsx"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="QanDu - Securely chat with your AI assistants" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180x180.png" sizes="180x180" />
+    <link rel="mask-icon" href="/assets/web-browser.svg" color="#FFFFFF" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>QanDu</title>
   </head>
   <body>
-    <div id="root">
-      <div id="loading-container"></div>
-    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
