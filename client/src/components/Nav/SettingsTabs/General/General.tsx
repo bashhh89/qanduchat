@@ -48,22 +48,21 @@ export const LangSelector = ({
 }) => {
   const localize = useLocalize();
 
-  const languageOptions = [
-    { value: 'auto', label: localize('com_nav_lang_auto') },
-    { value: 'en-US', label: localize('com_nav_lang_english') },
-    { value: 'ar-EG', label: localize('com_nav_lang_arabic') },
-  ];
-
+  // Hardcoded language options - ONLY English and Arabic
   return (
     <div className="flex items-center justify-between">
       <div>{localize('com_nav_language')}</div>
 
-      <Dropdown
+      <select 
         value={langcode}
-        onChange={onChange}
-        sizeClasses="[--anchor-max-height:256px]"
-        options={languageOptions}
-      />
+        onChange={(e) => onChange(e.target.value)}
+        className="h-8 rounded-md border border-border-light bg-transparent p-0 pl-2 pr-8 text-sm text-text-primary transition-colors hover:bg-surface-tertiary"
+        data-testid="language-selector"
+      >
+        <option value="auto">Auto detect</option>
+        <option value="en-US">English</option>
+        <option value="ar-EG">العربية</option>
+      </select>
     </div>
   );
 };
