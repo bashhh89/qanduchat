@@ -1,91 +1,9 @@
-version: 1.2.1
-
-cache: true
-
-interface:
-  customWelcome: "Welcome to QanDu! Enjoy your experience."
-  privacyPolicy:
-    externalUrl: 'https://qandu.ai/privacy-policy'
-    openNewTab: true
-  termsOfService:
-    externalUrl: 'https://qandu.ai/terms-of-service'
-    openNewTab: true
-  agents: true
-
-# AI Endpoints Configuration
+﻿version: 1.3.0
 endpoints:
-  agents:
-    recursionLimit: 25
-    maxRecursionLimit: 50
-    disableBuilder: false
-  
   custom:
-    - name: "ai-models"
-      baseURL: "https://text.pollinations.ai/v1/chat/completions"
-      apiKey: "pollinations"
-      requestBuilder: {
-        type: "openai",
-        initialPrompt: "",
-        mapMessage: "text",
-        promptPrefix: ""
-      }
+    - name: pollinations
+      apiKey: none
+      baseURL: https://text.pollinations.ai/openai
       models:
-        default:
-          - "OpenAI GPT-4o-mini"
-          - "OpenAI GPT-4o"
-          - "OpenAI o1-mini"
-          - "OpenAI o3-mini"
-          - "Qwen"
-          - "Qwen 2.5 Coder 32B"
-          - "Meta"
-          - "Llama 3.3 70B"
-          - "Llama 3.1 8B Instruct"
-          - "Mistral"
-          - "Mistral Nemo"
-          - "DeepSeek-V3"
-          - "DeepSeek-R1 Distill Qwen 32B"
-          - "DeepSeek R1 - Full"
-          - "DeepSeek R1 - Llama 70B"
-          - "Claude 3.5 Haiku"
-          - "Gemini 2.0 Flash"
-          - "Gemini 2.0 Flash Thinking"
-          - "Phi-4 Multimodal Instruct"
-        fetch: false
-      titleConvo: true
-      titleModel: "Mistral"
-      modelDisplayLabel: "AI Models"
-      maxTokens: 32000
-      maxOutputTokens: 8192
-      contextWindow: 32000
-      tokenLimit: 32000
-      forcePrompt: true
-      headers: {
-        "Content-Type": "application/json"
-      }
-
-    - name: "image-gen"
-      baseURL: "https://pollinations.ai"
-      apiKey: "none"
-      promptPrefix: "Generate an image of"
-      models:
-        default:
-          - "flux"
-          - "turbo"
-          - "flux-realism"
-          - "any-dark"
-          - "flux-anime"
-          - "flux-3d"
-        fetch: false
-      titleConvo: true
-      titleModel: "flux"
-      modelDisplayLabel: "Image Gen Models"
-      chatGptLabel: "Image Generator"
-      maxTokens: 16000
-      maxOutputTokens: 8192
-      contextWindow: 16000
-      tokenLimit: 16000
-      forcePrompt: true
-      responseProcessor: {
-        type: "markdown",
-        markdownTemplate: "![{{message}}](https://pollinations.ai/p/{{message}})"
-      } 
+        default: [openai, mistral, claude-hybridspace, openai-large]
+      requiresKey: false

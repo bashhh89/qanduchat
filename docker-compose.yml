@@ -8,28 +8,37 @@ services:
       - "${PORT}:${PORT}"
     depends_on:
       - mongodb
-      - rag_api
+      - bundler
     image: ghcr.io/danny-avila/librechat-dev:latest
     restart: always
     user: "${UID}:${GID}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+      - .env.docker
     environment:
       - HOST=0.0.0.0
+      - PORT=3080
+      - DOMAIN_CLIENT=http://localhost:3080
+      - DOMAIN_SERVER=http://localhost:3080
       - MONGO_URI=mongodb://mongodb:27017/LibreChat
       - MEILI_HOST=http://meilisearch:7700
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
+      - SANDPACK_BUNDLER_URL=http://localhost:8080
+      - CORS_ALLOWED_ORIGINS=http://localhost:3080,http://127.0.0.1:3080,http://localhost:8080
+      - ALLOW_FRONTEND_URL=http://localhost:3080,http://127.0.0.1:3080
+      - PERMISSIONS_DEFAULT_AGENTS=true
+      - PERMISSIONS_DEFAULT=true
+      - PERMISSIONS_AGENTS_USE=true
+      - PERMISSIONS_AGENTS_MANAGE=true
     volumes:
-      - type: bind
-        source: ./.env
-        target: /app/.env
-      - type: bind
-        source: ./librechat.yaml
-        target: /app/librechat.yaml
       - ./images:/app/client/public/images
       - ./uploads:/app/uploads
       - ./logs:/app/api/logs
+    networks:
+      - librechat-network
   mongodb:
     container_name: chat-mongodb
     image: mongo
@@ -38,6 +47,8 @@ services:
     volumes:
       - ./data-node:/data/db
     command: mongod --noauth
+    networks:
+      - librechat-network
   meilisearch:
     container_name: chat-meilisearch
     image: getmeili/meilisearch:v1.12.3
@@ -49,6 +60,8 @@ services:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
       - ./meili_data_v1.12:/meili_data
+    networks:
+      - librechat-network
   vectordb:
     container_name: vectordb
     image: ankane/pgvector:latest
@@ -59,17 +72,36 @@ services:
     restart: always
     volumes:
       - pgdata2:/var/lib/postgresql/data
+    networks:
+      - librechat-network
+  bundler:
+    container_name: sandpack-bundler
+    image: ghcr.io/librechat-ai/codesandbox-client/bundler:latest
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:3080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - librechat-network
   rag_api:
     container_name: rag_api
     image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
-    environment:
-      - DB_HOST=vectordb
-      - RAG_PORT=${RAG_PORT:-8000}
     restart: always
-    depends_on:
-      - vectordb
-    env_file:
-      - .env
+    environment:
+      - RAG_PORT=${RAG_PORT:-8000}
+    networks:
+      - librechat-network
 
 volumes:
   pgdata2:
+
+networks:
+  librechat-network:
+    driver: bridge
