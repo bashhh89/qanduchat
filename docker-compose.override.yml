@@ -1,0 +1,46 @@
+services:
+  bundler:
+    environment:
+      - ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:80
+      - NODE_ENV=production
+      - SANDBOX_MAX_MEMORY=2048
+      - SANDBOX_TIMEOUT=300000
+  
+  api:
+    volumes:
+      - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
+      - ./agents:/app/agents
+      - ./images:/app/client/public/images
+      - ./uploads:/app/uploads
+      - ./logs:/app/api/logs
+      - ./custom-index.html:/app/client/index.html:ro
+      - ./images/logo.svg:/app/client/public/assets/logo.svg:ro
+      - ./images/favicon.svg:/app/client/public/assets/favicon-16x16.png:ro
+      - ./images/favicon.svg:/app/client/public/assets/favicon-32x32.png:ro
+      - ./images/favicon.svg:/app/client/public/assets/apple-touch-icon-180x180.png:ro
+    environment:
+      - GOOGLE_KEY=AIzaSyCfWiKmGabI7xh6AdwSvVaQ2EEtu-o_NKo
+      - GOOGLE_MODELS=gemini-pro,gemini-pro-vision
+      - PERMISSIONS_DEFAULT_ARTIFACTS=true
+      - PERMISSIONS_DEFAULT_AGENTS=true
+      - PERMISSIONS_DEFAULT=true
+      - PERMISSIONS_AGENTS_USE=true
+      - PERMISSIONS_AGENTS_MANAGE=true
+      - PERMISSIONS_ARTIFACTS_USE=true
+      - PERMISSIONS_ARTIFACTS_MANAGE=true
+      - RAG_ENABLED=false
+      
+  rag_api:
+    image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
+    environment:
+      - POSTGRES_CONNECTION_URL=postgres://postgres:password@vectordb:5432/postgres
+      - DB_HOST=vectordb
+      - PDF_EXTRACT_IMAGES=False
+    volumes:
+      - ./uploads:/app/uploads
+
+  nginx:
+    volumes:
+      - ./landing:/usr/share/nginx/html/landing
